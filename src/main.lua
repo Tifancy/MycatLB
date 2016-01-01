@@ -3,14 +3,18 @@
 --@author:coder_czp
 --@date:2015/9/19
 --------------------------------------
---
-package.path = package.path  .. ";src/?.lua"
-
 --只能在这个入口文件访问deps模块,所以将需要的模块导出到_G
+_G['fs']      = require('fs')
 
-_G['fs']       = require('fs')
+local sDir    = 'src'
+local gPath   = package.path
+for k,v in pairs(fs.readdirSync(sDir)) do
+   gPath = string.format('%s;%s/%s/?.lua',gPath,sDir,v)
+end
+package.path   = gPath
+	
 local Response = require('http').ServerResponse
-local disp     = require('http_dispatch')
+local disp     = require('dispatch')
 local mimes    = require('mime')
 local http     = require('http')
 local url      = require('url')
