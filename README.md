@@ -1,3 +1,3 @@
 # Tcp负载均衡器
 
-![image](https://github.com/coderczp/MycatLB/img/lb_add_ser.png)
+![image(https://raw.githubusercontent.com/coderczp/MycatLB/master/img/lb_add_ser.png)
