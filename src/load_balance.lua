@@ -94,7 +94,7 @@ local function _start(route_cfg)
   --meta_log     = fs.openSync("data/meta.log", "w")
   log          = fs.openSync("data/proxy.log", "a")
 
-  local fmt    = "%s (%s) (%s) by (%s) to (%s)\n"
+  local fmt    = "%s-(%s)-(%s)-(%s)\n"
   local port   = route_cfg.port
 
   init_server_pool(route_cfg)
@@ -118,12 +118,10 @@ local function _start(route_cfg)
         else
 
           local local_add = uv.tcp_getsockname(upstream)
-          local time_str  = os.date("%Y/%m/%d-%H:%M:%S", os.time())
+          local time_str  = os.date("%Y/%m/%d %H:%M:%S", os.time())
           local ser_str   = string.format("%s:%s",ser.ip,ser.port)
           local cli_str   = string.format("%s:%s",cli_add.ip,cli_add.port)
-          local local_str = string.format("%s:%s",local_add.ip,local_add.port)
-          local proxy_str = string.format("%s:%s",local_add.ip,port)
-          local log_str   = string.format(fmt,time_str,cli_str,proxy_str,local_str,ser_str)
+          local log_str   = string.format(fmt,time_str,cli_str,port,ser_str)
 
           local statc_tbl    =  _statistics.each_ser_count
           local requst_count =  _statistics.request_cout

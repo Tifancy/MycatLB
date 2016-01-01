@@ -10,11 +10,10 @@ package.path = package.path  .. ";src/?.lua"
 
 _G['fs']       = require('fs')
 local Response = require('http').ServerResponse
-local disp     = require('dispatch')
+local disp     = require('http_dispatch')
 local mimes    = require('mime')
 local http     = require('http')
 local url      = require('url')
-local fs       = _G['fs']
 
 local web_config = {
   root = "web",

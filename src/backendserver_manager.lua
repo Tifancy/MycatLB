@@ -5,8 +5,8 @@
 --------------------------------------
 
 local Util  = require("util")
-local Proxy = require("proxy")
 local DB    = require("ljsqlite3")
+local Proxy = require("load_balance")
 
 local sql_host  = "CREATE TABLE IF NOT EXISTS host_tbl(host varchar,port varchar,weight varchar,primary key(host,port))"
 local sql_glob  = "CREATE TABLE IF NOT EXISTS glb_tbl (lb_type varchar,port varchar, primary key(port))"

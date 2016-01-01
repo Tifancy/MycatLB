@@ -4,8 +4,8 @@
 --@date:2015/9/19
 --------------------------------------
 
-local Route   = require("route_manager")
-local Host    = require("host_manager")
+local Host    = require("backendserver_manager")
+local Log     = require("log_manager")
 local Util    = require("util")
 
 local foot,head
@@ -16,7 +16,7 @@ mvc_map["/admin/lb/delHost"] = Host.delHost
 mvc_map["/admin/lbquery"] = Host.query
 mvc_map["/admin/lb/stop"] = Host.stop
 mvc_map["/admin/lbadd"] = Host.add
-mvc_map["/admin/route"] = Route.query
+mvc_map["/admin/route"] = Log.query
 
 --根据请求调用处理逻辑
 local function call_logic(url,args)

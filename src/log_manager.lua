@@ -4,15 +4,15 @@
 --@date:2015/9/19
 --------------------------------------
 
-local Proxy = require("proxy")
-local Util = require("util")
-local fs   = _G['fs']
+local Proxy = require("load_balance")
+local Util  = require("util")
+local fs    = _G['fs']
 
 local page_size     = 20
 local each_line_len = 104
 local log           = "data/proxy.log"
 local view          = "/view/route_mgr.html"
-local fmt           = "<tr><td>%s<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>"
+local fmt           = "<tr><td>%s<td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>"
 
 --分页读取
 local function readPage(fd,page,page_size,each_line_size,all)
@@ -72,8 +72,8 @@ local function _query_route_info(query_args)
   local splits = Util.split(lines,"\n")
   for k,line in pairs(splits) do
     if line~= "" then
-      tbl   = Util.split(line," ")
-      str   = string.format(fmt,k,tbl[1],tbl[2],tbl[3],tbl[5],tbl[7])
+      tbl   = Util.split(line,"-")
+      str   = string.format(fmt,k,tbl[1],tbl[2],tbl[3],tbl[4])
       table.insert(tmp,str)
     end
   end
