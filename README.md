@@ -1,4 +1,4 @@
-# Tcp负载均衡器
+# CZP_TCP负载均衡器
 
 ##添加load balance
 ![image](https://raw.githubusercontent.com/coderczp/MycatLB/master/img/lb_add_ser.png)
