@@ -5,8 +5,9 @@
 --------------------------------------
 
 
-local uv = require('uv')
-local fs = _G['fs']
+local uv           = require('uv')
+local fs           = _G['fs']
+local public       = {}
 
 --轮询模式的索引
 local round_index  = 1
@@ -89,8 +90,22 @@ local function select_ser(client_ip)
 
 end
 
-local function _start(route_cfg)
+--添加后端服务
+function public.add_backend_ser(backend_ser_tbl)
+   table.insert(all_ips,backend_ser_tbl)
+end
 
+--删除后端服务
+function public.add_backend_ser(backend_ser_tbl)
+  local tmp = backend_ser_tbl
+  for k,v in pairs(all_ips) do 
+     if v.ip == tmp.ip and v.port == tmp.port then
+       table.remove(all_ips,i)
+     return end 
+  end
+end
+
+function public.start(route_cfg)
   --meta_log     = fs.openSync("data/meta.log", "w")
   log          = fs.openSync("data/proxy.log", "a")
 
@@ -159,32 +174,26 @@ local function _start(route_cfg)
 end
 
 --获取统计数据
-local function _get_statistics()
+function public.statistics()
   return _statistics
 end
 
 --停止服务
-local function _stop()
+function public.stop()
   if proxy_server then proxy_server:close() end
   if log then fs.close(log) end
 end
 
-local function _reload(reoute_cfg)
-  --改变端口重启服务
+--改变端口重启服务
+function public.reload(reoute_cfg)
   if proxy_port ~= reoute_cfg.port then
     proxy_port   = reoute_cfg.port
     proxy_server:close()
     proxy_server = nil
-    _start(reoute_cfg)
+    public.start(reoute_cfg)
   else
     init_server_pool(reoute_cfg)
   end
 end
 
-local _M = {
-  stop       = _stop,
-  start      = _start,
-  reload     = _reload,
-  statistics = _get_statistics
-}
-return _M
+return public

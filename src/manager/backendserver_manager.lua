@@ -4,9 +4,10 @@
 --@date:2015/9/19
 --------------------------------------
 
-local Util  = require("util")
-local DB    = require("ljsqlite3")
-local Proxy = require("load_balance")
+local Util      = require("util")
+local DB        = require("ljsqlite3")
+local Proxy     = require("load_balance")
+local Add_ser   = require('add_backend_server')
 
 local sql_host  = "CREATE TABLE IF NOT EXISTS host_tbl(host varchar,port varchar,weight varchar,primary key(host,port))"
 local sql_glob  = "CREATE TABLE IF NOT EXISTS glb_tbl (lb_type varchar,port varchar, primary key(port))"
@@ -59,6 +60,7 @@ local function reload_proxy(db_conn)
   if not proxy_run then
     proxy_run = true
     Proxy.start(config)
+    Add_ser.start_server(1234,Proxy)
     print("start_proxy server ",rport)
   else
     Proxy.reload(config)
@@ -107,7 +109,7 @@ end
 
 --添加主机
 local function _add(tbl)
-  if tbl == nil or tbl.port == nil or tbl.host == nil or tbl.weight == nil then
+  if tbl == nil or not tbl.port  or not tbl.host  or not tbl.weight then
     return Util.json({code=503,info="host port weight is required"}),true
   end
 

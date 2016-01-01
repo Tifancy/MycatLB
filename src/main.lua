@@ -5,6 +5,7 @@
 --------------------------------------
 --只能在这个入口文件访问deps模块,所以将需要的模块导出到_G
 _G['fs']      = require('fs')
+_G['Json']    = require('json')
 
 local sDir    = 'src'
 local gPath   = package.path
