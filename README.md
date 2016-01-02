@@ -12,7 +12,7 @@
 	c.立即下线或移除[紧急模式] 
 	d.完成当前事务后下线或移除[安全模式]
 ###4.性能测试(基于redis-benchmark):nginx_tcp vs czplb
-nginx
+	nginx
 	====== LRANGE_500 (first 450 elements) ======
 	100000 requests completed in 17.05 seconds
 	5856.48 requests per second
@@ -22,7 +22,7 @@ nginx
 	====== MSET (10 keys) ======
 	100000 requests completed in 4.25 seconds
 	23529.41 requests per second
-czplb
+	czplb
 	====== LRANGE_500 (first 450 elements) ======
 	100000 requests completed in 17.07 seconds
 	5856.86 requests per second
