@@ -24,7 +24,7 @@
 		23529.41 requests per second
 	czplb
 		====== LRANGE_500 (first 450 elements) ======
-		100000 requests completed in 17.07 seconds
+		100000 requests completed in 17.03 seconds
 		5856.86 requests per second
 		====== LRANGE_600 (first 600 elements) ======
 		100000 requests completed in 22.17 seconds
