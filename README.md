@@ -13,25 +13,25 @@
 	d.完成当前事务后下线或移除[安全模式]
 ###4.性能测试(基于redis-benchmark):nginx_tcp vs czplb
 	nginx
-	====== LRANGE_500 (first 450 elements) ======
-	100000 requests completed in 17.05 seconds
-	5856.48 requests per second
-	====== LRANGE_600 (first 600 elements) ======
-	100000 requests completed in 20.78 seconds
-	4811.62 requests per second
-	====== MSET (10 keys) ======
-	100000 requests completed in 4.25 seconds
-	23529.41 requests per second
+		====== LRANGE_500 (first 450 elements) ======
+		100000 requests completed in 17.05 seconds
+		5856.48 requests per second
+		====== LRANGE_600 (first 600 elements) ======
+		100000 requests completed in 20.78 seconds
+		4811.62 requests per second
+		====== MSET (10 keys) ======
+		100000 requests completed in 4.25 seconds
+		23529.41 requests per second
 	czplb
-	====== LRANGE_500 (first 450 elements) ======
-	100000 requests completed in 17.07 seconds
-	5856.86 requests per second
-	====== LRANGE_600 (first 600 elements) ======
-	100000 requests completed in 22.17 seconds
-	4509.79 requests per second
-	====== MSET (10 keys) ======
-	100000 requests completed in 4.07 seconds
-	24557.96 requests per second
+		====== LRANGE_500 (first 450 elements) ======
+		100000 requests completed in 17.07 seconds
+		5856.86 requests per second
+		====== LRANGE_600 (first 600 elements) ======
+		100000 requests completed in 22.17 seconds
+		4509.79 requests per second
+		====== MSET (10 keys) ======
+		100000 requests completed in 4.07 seconds
+		24557.96 requests per second
 		
 ###安装步骤
 	1.在bin目录下载对应的版本:windows or linux
