@@ -6,13 +6,6 @@
 --只能在这个入口文件访问deps模块,所以将需要的模块导出到_G
 _G['fs']      = require('fs')
 _G['Json']    = require('json')
-
-local sDir    = 'src'
-local gPath   = package.path
-for k,v in pairs(fs.readdirSync(sDir)) do
-   gPath = string.format('%s;%s/%s/?.lua',gPath,sDir,v)
-end
-package.path   = gPath
 	
 local Response = require('http').ServerResponse
 local disp     = require('dispatch')

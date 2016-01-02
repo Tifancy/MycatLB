@@ -92,23 +92,22 @@ end
 
 --添加后端服务
 function public.add_backend_ser(backend_ser_tbl)
-   table.insert(all_ips,backend_ser_tbl)
+  table.insert(all_ips,backend_ser_tbl)
 end
 
 --删除后端服务
-function public.add_backend_ser(backend_ser_tbl)
+function public.del_backend_ser(backend_ser_tbl)
   local tmp = backend_ser_tbl
-  for k,v in pairs(all_ips) do 
-     if v.ip == tmp.ip and v.port == tmp.port then
-       table.remove(all_ips,i)
-     return end 
+  for k,v in pairs(all_ips) do
+    if v.ip == tmp.ip and v.port == tmp.port then
+      table.remove(all_ips,i)
+      return end
   end
 end
 
 function public.start(route_cfg)
-  --meta_log     = fs.openSync("data/meta.log", "w")
-  log          = fs.openSync("data/proxy.log", "a")
 
+  log          = fs.openSync("data/proxy.log", "a")
   local fmt    = "%s-(%s)-(%s)-(%s)\n"
   local port   = route_cfg.port
 
@@ -127,10 +126,24 @@ function public.start(route_cfg)
 
       upstream:connect(ser.ip, ser.port, function(error)
         if error then
-          print('connect to upstream err: ' .. error)
+          print('connect to upstream err: ' ,error)
           upstream:close()
           client:close()
         else
+
+          upstream:read_start(function(err, data)
+            if data then client:write(data) return end
+            if err  then p("Upstream error:",err) end
+            upstream:close()
+            client:close()
+          end)
+
+          client:read_start(function(err, data)
+            if data then  upstream:write(data) return end
+            if err  then  p("Client error:" , err) end
+            upstream:close()
+            client:close()
+          end)
 
           local local_add = uv.tcp_getsockname(upstream)
           local time_str  = os.date("%Y/%m/%d %H:%M:%S", os.time())
@@ -155,19 +168,6 @@ function public.start(route_cfg)
             if err then print("write log error:"..err) end
           end)
 
-          upstream:read_start(function(err, data)
-            if err then print("Upstream error:" .. err) end
-            if data then client:write(data) return end
-            upstream:close()
-            client:close()
-          end)
-
-          client:read_start(function(err, data)
-            if  err then print("Client error:" .. err) end
-            if data then  upstream:write(data) return end
-            upstream:close()
-            client:close()
-          end)
         end
       end)
   end)

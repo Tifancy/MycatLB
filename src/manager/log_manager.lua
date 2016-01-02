@@ -61,7 +61,7 @@ local function _query_route_info(query_args)
 
   local cur_page = tonumber(query_args.p) or 1
   local count    = Proxy.statistics().request_cout
- 
+
   local tbl,str
   local tmp  = {}
   local fd = fs.openSync(log,"r")
@@ -71,7 +71,7 @@ local function _query_route_info(query_args)
   local lines = readPage(fd,cur_page,page_size,each_line_len,count)
   local splits = Util.split(lines,"\n")
   for k,line in pairs(splits) do
-    if line~= "" then
+    if line ~= "" then
       tbl   = Util.split(line,"-")
       str   = string.format(fmt,k,tbl[1],tbl[2],tbl[3],tbl[4])
       table.insert(tmp,str)
@@ -88,8 +88,4 @@ local function _query_route_info(query_args)
 
 end
 
-local _M = {
-  query = _query_route_info
-}
-
-return _M
+return {query = _query_route_info}

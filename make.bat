@@ -1,25 +1,28 @@
 @echo off
 
-echo "start build windows exe"
+set ARG=%1%
+set BIT_FLAG=64
+if /i "%PROCESSOR_IDENTIFIER:~0,3%"=="X86" set BIT_FLAG=32
+echo "start build window exe os bit is %BIT_FLAG%"
 
 if not exist bin mkdir bin
 
 set port=8081
 set curpath=%CD%
+set cmdtitle=czplb
 set outpath=%CD%\bin
 set luavm=luacore.exe
-set cmdtitle=mycat_proxy
-set main=%luavm% main.lua  %port% 
-set pack_exe="C:\Program Files\Inno Setup 5\Compil32.exe"
+if [%ARG%] neq [] set luavm=luacore_x64.exe
+set main=%luavm%  main.lua  %port% 
+set pack_exe="F:\Program Files (x86)\Inno Setup 5\Compil32.exe"
+
 
 cd util\luajit
-
-luajit204 -e "print(jit.version)"
-
-for /R %%s in ( ..\..\src\*.lua ) do (
-   echo  Compile %%s
-   luajit204 -b %%s %outpath%\%%~nxs
-)
+luajit204 -e "print('ljit version:',jit.version)"
+for /f "delims==" %%i in ('dir ..\..\src\*.lua /b /s') do (
+   echo  Compile  %%i
+   luajit204 -b %%i %outpath%\%%~nxi
+)   
 
 echo "Compile success,copy %luavm%"
 
@@ -45,8 +48,10 @@ echo %httpcmd% >> %outpath%\run.bat
 
 echo "copy success ,next will package"
 
+@rem if is 64bit create temp file
+if [%ARG%] neq [] echo "os64">%curpath%\os_64.txt
 call %pack_exe% /cc %curpath%\make.iss
-
+if [%ARG%] neq [] del /a /f /s /q  %curpath%\os_64.txt
     
 cd %outpath%
 del /a /f /s /q %outpath%\web
@@ -57,8 +62,6 @@ del /a /f /s /q %outpath%\*.iss
 del /a /f /s /q %outpath%\%luavm%
 rd /s/q         %outpath%\web
 
-set BIT_FLAG=64
-if /i "%PROCESSOR_IDENTIFIER:~0,3%"=="X86" set BIT_FLAG=32 
-echo "os is %BIT_FLAG% bit"
-
 cd %curpath%
+
+:END
